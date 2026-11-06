@@ -1,0 +1,22 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}Quebenix POS{% endblock %} | Quebenix Technology</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}"></head>
+<body data-currency="{{ currency }}" data-tax="{{ company.tax_rate or 0 }}"><div class="app-shell">
+<aside class="sidebar"><a class="brand" href="{{ url_for('dashboard') }}"><img class="brand-mark-img brand-full-logo" src="{{ url_for('static',filename='img/quebenix-logo.jpg') }}" alt="Quebenix Technology — Innovate, Develop, Grow"></a>
+<div class="side-label">WORKSPACE</div><nav>
+<a href="{{ url_for('dashboard') }}" class="{{ 'active' if request.endpoint=='dashboard' else '' }}">▦ <span>Dashboard</span></a>
+<a href="{{ url_for('pos') }}" class="{{ 'active' if request.endpoint=='pos' else '' }}">▣ <span>POS Terminal</span><em>NEW</em></a>
+<a href="{{ url_for('sales') }}">↗ <span>Sales & Invoices</span></a>
+<a href="{{ url_for('clients') }}">◎ <span>Clients</span></a>
+<a href="{{ url_for('services') }}">◇ <span>Service Catalog</span></a>
+<a href="{{ url_for('projects') }}">▤ <span>Projects</span></a>
+<a href="{{ url_for('expenses') }}">↘ <span>Expenses</span></a>
+<a href="{{ url_for('reports') }}">▥ <span>Reports</span></a>
+</nav><div class="side-label admin-label">ADMINISTRATION</div><nav>
+{% if role=='Admin' %}<a href="{{ url_for('staff') }}">♙ <span>Team & Staff</span></a><a href="{{ url_for('settings') }}">⚙ <span>Settings</span></a>{% endif %}
+</nav><div class="sidebar-bottom"><div class="online-dot"></div><span>Workspace online</span><small>v1.0.0</small></div></aside>
+<main class="main"><header class="topbar"><button class="mobile-menu" onclick="document.body.classList.toggle('nav-open')">☰</button><div><span class="crumb">QUEBENIX /</span> <b>{% block page %}Workspace{% endblock %}</b></div><div class="top-actions"><span class="top-date" id="today"></span><div class="user-chip"><span class="avatar">{{ (current_user or 'Q')[0]|upper }}</span><span><b>{{ current_user }}</b><small>{{ role }}</small></span></div><a class="logout" href="{{ url_for('logout') }}">↪</a></div></header>
+<section class="content">{% with messages=get_flashed_messages(with_categories=true) %}{% if messages %}{% for cat,msg in messages %}<div class="flash {{ cat }}">{{ msg }}</div>{% endfor %}{% endif %}{% endwith %}{% block content %}{% endblock %}</section>
+<footer>© {{ 2026 }} Quebenix Technology <span>INNOVATE · DEVELOP · GROW</span></footer></main></div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script><script src="{{ url_for('static',filename='js/app.js') }}"></script>{% block scripts %}{% endblock %}</body></html>
